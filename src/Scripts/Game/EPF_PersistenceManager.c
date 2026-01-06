@@ -477,7 +477,8 @@ class EPF_PersistenceManager
 
 		// "Hacky" restore of baked status.
 		// If id no longer provides this info, record all ids created up until world init and remember those as baked to check here.
-		if (id.StartsWith("00bb"))
+		// Ignore peertool polyfill ids
+		if (id.StartsWith("00bb") && !id.StartsWith("00bbbddd-"))
 			persistenceComponent.FlagAsBaked();
 
 		EPF_PersistenceComponentClass settings = EPF_ComponentData<EPF_PersistenceComponentClass>.Get(persistenceComponent);
@@ -965,6 +966,7 @@ class EPF_PersistenceManager
 		EPF_EntitySlotPrefabInfo.Reset();
 		EPF_StorageChangeDetection.Reset();
 		EPF_PersistenceIdGenerator.Reset();
+		EPF_DeferredApplyResult.Reset();
 		EPF_PersistentScriptedStateProxy.s_mProxies = null;
 		s_pInstance = null;
 	}
